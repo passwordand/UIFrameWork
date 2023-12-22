@@ -38,6 +38,12 @@ public class WindowBase : WindowBehaviour
     }
     #endregion
 
+    public override void SetVisible(bool isVisible)
+    {
+        //TODO:后面会修改
+        gameObject.SetActive(isVisible);
+    }
+
     #region 事件管理
     public void AddButtonListener(Button btn,UnityAction action)
     {
