@@ -42,6 +42,7 @@ public class WindowBase : WindowBehaviour
     {
         //TODO:后面会修改
         gameObject.SetActive(isVisible);
+        Visible = isVisible;
     }
 
     #region 事件管理
