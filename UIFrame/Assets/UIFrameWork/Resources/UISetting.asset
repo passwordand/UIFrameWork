@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c636a943154772f41a9a9754360262a4, type: 3}
   m_Name: UISetting
   m_EditorClassIdentifier: 
-  SINGMASK_SYSTEM: 1
+  SINGMASK_SYSTEM: 0

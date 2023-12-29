@@ -19,11 +19,19 @@ public class UIManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Q))
         {
-            UIModule.Instance.HideWindow<LoginWindow>();
+            UIModule.Instance.PopUpWindow<TestWindow>();
         }
         if (Input.GetKeyDown(KeyCode.W))
         {
-            UIModule.Instance.DestroyWindow<LoginWindow>();
+            UIModule.Instance.HideWindow<TestWindow>();
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            UIModule.Instance.PopUpWindow<TempWindow1>();
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            UIModule.Instance.HideWindow<TempWindow1>();
         }
     }
 }

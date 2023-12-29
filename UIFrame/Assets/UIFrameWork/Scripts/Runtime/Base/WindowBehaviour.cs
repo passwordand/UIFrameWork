@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,11 @@ public abstract class WindowBehaviour
     public Canvas Canvas { get; set; }
     public string Name { get; set; }
     public bool Visible { get; set; }
+
+    //检测是否是通过堆栈系统弹出的弹窗
+    public bool isPopStack { get; set; }
+    public Action<WindowBase> PopStackListener { get; set; }
+
     public virtual void OnAwake() { }//只会在物体创建的时候执行一次
     public virtual void OnShow() { }
     public virtual void OnUpdate() { }
