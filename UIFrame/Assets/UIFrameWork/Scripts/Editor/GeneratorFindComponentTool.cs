@@ -38,14 +38,15 @@ public class GeneratorFindComponentTool : Editor
         Debug.Log("CsConent:\n" + csContent);
 
         string cspath=GeneratorConfig.FindComponentGeneratorPath+"/"+obj.name+ "UIComponent.cs";
-        if (File.Exists(cspath))
-        {
-            File.Delete(cspath);
-        }
-        StreamWriter writer=File.CreateText(cspath);
-        writer.Write(csContent);
-        writer.Close();
-        AssetDatabase.Refresh();
+        UIWindowEditor.ShowWindow(csContent, cspath);
+        //if (File.Exists(cspath))
+        //{
+        //    File.Delete(cspath);
+        //}
+        //StreamWriter writer=File.CreateText(cspath);
+        //writer.Write(csContent);
+        //writer.Close();
+        //AssetDatabase.Refresh();
         //foreach (var item in objFindPathDic)
         //{
         //    Debug.Log(item.Value);

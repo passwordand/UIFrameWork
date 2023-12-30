@@ -29,14 +29,15 @@ public class GeneratorWindowTool : Editor
         Debug.Log("CsConent:\n" + csContent);
 
         string cspath = GeneratorConfig.WindowGeneratorPath + "/" + obj.name + ".cs";
-        if (File.Exists(cspath))
-        {
-            File.Delete(cspath);
-        }
-        StreamWriter writer = File.CreateText(cspath);
-        writer.Write(csContent);
-        writer.Close();
-        AssetDatabase.Refresh();
+        UIWindowEditor.ShowWindow(csContent,cspath,methodDic);
+        //if (File.Exists(cspath))
+        //{
+        //    File.Delete(cspath);
+        //}
+        //StreamWriter writer = File.CreateText(cspath);
+        //writer.Write(csContent);
+        //writer.Close();
+        //AssetDatabase.Refresh();
 
     }
 
