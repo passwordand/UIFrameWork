@@ -1,4 +1,4 @@
-﻿using System;
+﻿  using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +10,7 @@ public class UIModule
 
     private Camera mUICamera;
     private Transform mUIRoot;
+    private WindowConfig mWindowConfig;
 
     private Dictionary<string, WindowBase> mAllWindowDic = new Dictionary<string, WindowBase>();
     private List<WindowBase> mAllWindowList=new List<WindowBase>();//所有窗口的列表
@@ -24,6 +25,12 @@ public class UIModule
     {
         mUICamera = GameObject.Find("UICamera").GetComponent<Camera>();
         mUIRoot = GameObject.Find("UIRoot").transform;
+        mWindowConfig = Resources.Load<WindowConfig>("WindowConfig");
+
+        //手机上不会调用
+#if UNITY_EDITOR
+        mWindowConfig.GeneraWindowConfig();
+#endif
     }
 
 
@@ -274,8 +281,7 @@ public class UIModule
     //资源加载
     public GameObject TempLoadWindow(string widName)
     {
-        //TODO:后期待修改
-        var widdow= GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Window/" + widName), mUIRoot);
+        var widdow= GameObject.Instantiate<GameObject>(Resources.Load<GameObject>(mWindowConfig.GetWindowPath(widName)), mUIRoot);
         //widdow.transform.SetParent(mUIRoot);
         widdow.transform.localScale = Vector3.one;
         widdow.transform.localPosition = Vector3.zero;

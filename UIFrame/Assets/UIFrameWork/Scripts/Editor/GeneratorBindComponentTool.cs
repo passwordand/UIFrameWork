@@ -11,7 +11,7 @@ using System.Reflection;
 public class GeneratorBindComponentTool : Editor
 {
     public static List<EditorObjectData> objDataList;//查找对象的数据
-    [MenuItem("GameObject/生成组件数据 脚本", false, 0)]
+    [MenuItem("GameObject/生成组件数据脚本(Shift+B) #B", false, 0)]
     static void CreateFindComponentScripts()
     {
         GameObject obj = Selection.objects.First() as GameObject;//获取到当前选择的物体
@@ -26,7 +26,11 @@ public class GeneratorBindComponentTool : Editor
         {
             Directory.CreateDirectory(GeneratorConfig.BindComponentGeneratorPath);
         }
-        PresWindowNodeData(obj.transform, obj.name);
+        //解析窗口组件数据
+        if (GeneratorConfig.ParseType == ParseType.Tag)
+            ParseWindowDataByTag(obj.transform, obj.name);
+        else
+            PresWindowNodeData(obj.transform, obj.name);
 
         JsonMgr.Instance.SaveData(objDataList, GeneratorConfig.OBJDATALIST_KEY);
 
@@ -58,6 +62,21 @@ public class GeneratorBindComponentTool : Editor
             }
             PresWindowNodeData(trans.GetChild(i), WinName);
         }
+    }
+    public static void ParseWindowDataByTag(Transform trans, string WinName)
+    {
+        for(int i = 0; i < trans.childCount; i++)
+        {
+            GameObject obj = trans.GetChild(i).gameObject;
+            string tagName = obj.tag;
+            if (GeneratorConfig.TAGArr.Contains(tagName))
+            {
+                string fileName = obj.name;//获取字段名
+                string fileType = tagName;//获取字段类型
+                objDataList.Add(new EditorObjectData { fileName = fileName, fileType = fileType, insID = obj.GetInstanceID() });
+            }
+            ParseWindowDataByTag(trans.GetChild(i), WinName);
+        }    
     }
 
     /// <summary>
@@ -163,8 +182,8 @@ public class GeneratorBindComponentTool : Editor
         var cSharpAssembly = assemblies.First(assembly => assembly.GetName().Name == "Assembly-CSharp");
         //获取类所在的程序集路径
         string relClassName = "UIFrameWork." + className;
-        Type type=cSharpAssembly.GetType(relClassName);
-        if(type == null)
+        Type classType=cSharpAssembly.GetType(relClassName);
+        if(classType == null)
         {
             return;
         }
@@ -180,16 +199,16 @@ public class GeneratorBindComponentTool : Editor
             }
         }
         //先获取现窗口上有没有挂载该数据组件,如果没挂载再进行挂载
-        Component compt = windowObj.GetComponent(type);
+        Component compt = windowObj.GetComponent(classType);
         if(compt == null)
         {
-            compt=windowObj.AddComponent(type);
+            compt=windowObj.AddComponent(classType);
         }
         //2.通过反射的方式，遍历数据列表 找到对应的字段，赋值
         //获取对象数据列表
         var objDataList = JsonMgr.Instance.LoadData<List<EditorObjectData>>(GeneratorConfig.OBJDATALIST_KEY);
         //获取脚本所有字段
-        FieldInfo[] fieldInfoList = type.GetFields();
+        FieldInfo[] fieldInfoList = classType.GetFields();
 
         foreach (var item in fieldInfoList)
         {

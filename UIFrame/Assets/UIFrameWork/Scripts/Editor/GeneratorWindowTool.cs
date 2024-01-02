@@ -9,7 +9,7 @@ using System.Text;
 public class GeneratorWindowTool : Editor
 {
     static Dictionary<string, string> methodDic = new Dictionary<string, string>();
-    [MenuItem("GameObject/生成Window脚本", false, 0)]
+    [MenuItem("GameObject/生成Window脚本(Shift+V) #V", false, 0)]
     static void CreateFindComponentScripts()
     {
         GameObject obj = Selection.objects.First() as GameObject;//获取到当前选择的物体
@@ -69,9 +69,16 @@ public class GeneratorWindowTool : Editor
         sb.AppendLine($"\tpublic class {name}:WindowBase");
         sb.AppendLine("\t{");
         sb.AppendLine("\t");
-
+        if(GeneratorConfig.GeneratorType==GeneratorType.Bind)
+        {
             //生成字段
-        sb.AppendLine($"\t\t public {name}UIComponent uiCompt=new {name}UIComponent();");
+            sb.AppendLine($"\t\t public {name}DataComponent dataCompt;");
+        }
+        else
+        {
+            //生成字段
+            sb.AppendLine($"\t\t public {name}UIComponent uiCompt=new {name}UIComponent();");
+        }
 
         //生成声明周期函数 Awake
         sb.AppendLine("\t");
@@ -79,7 +86,16 @@ public class GeneratorWindowTool : Editor
         sb.AppendLine($"\t\t //调用机制与Mono Awake一致");
         sb.AppendLine("\t\t public override void OnAwake()");
         sb.AppendLine("\t\t {");
-        sb.AppendLine($"\t\t\t uiCompt.InitComponent(this);");
+        if (GeneratorConfig.GeneratorType == GeneratorType.Bind)
+        {
+            sb.AppendLine($"\t\t\t dataCompt=gameObject.GetComponent<{name}DataComponent>();");
+            sb.AppendLine($"\t\t\t dataCompt.InitComponent(this);");
+        }
+        else
+        {
+            sb.AppendLine($"\t\t\t uiCompt.InitComponent(this);");
+        }
+            
         sb.AppendLine("\t\t\t base.OnAwake();");
         sb.AppendLine("\t\t }");
         //OnShow

@@ -11,7 +11,7 @@ public class GeneratorFindComponentTool : Editor
 {
     public static Dictionary<int, string> objFindPathDic;//key 物体的insid,value代表物体查找路径
     public static List<EditorObjectData> objDataList;//查找对象的数据
-    [MenuItem("GameObject/生成组件查找脚本",false,0)]
+    [MenuItem("GameObject/生成组件查找脚本(Shift+F) #F", false,0)]
     static void CreateFindComponentScripts()
     {
         GameObject obj = Selection.objects.First() as GameObject;//获取到当前选择的物体
@@ -27,7 +27,11 @@ public class GeneratorFindComponentTool : Editor
         {
             Directory.CreateDirectory(GeneratorConfig.FindComponentGeneratorPath);
         }
-        PresWindowNodeData(obj.transform,obj.name);
+        //解析窗口组件数据
+        if (GeneratorConfig.ParseType == ParseType.Tag)
+            ParseWindowDataByTag(obj.transform, obj.name);
+        else
+            PresWindowNodeData(obj.transform, obj.name);
 
         //存储字段名称
         //string datalistJSON=JsonMapper.ToJson(objDataList);
@@ -96,6 +100,53 @@ public class GeneratorFindComponentTool : Editor
                         }
                     }
                     if(isFindOver)
+                    {
+                        break;
+                    }
+                }
+                objFindPathDic.Add(obj.GetInstanceID(), objPath);
+            }
+            PresWindowNodeData(trans.GetChild(i), WinName);
+        }
+    }
+    public static void ParseWindowDataByTag(Transform trans, string WinName)
+    {
+        for (int i = 0; i < trans.childCount; i++)
+        {
+            GameObject obj = trans.GetChild(i).gameObject;
+            string name = obj.name;
+            if (name.Contains("[") && name.Contains("]"))
+            {
+                int index = name.IndexOf("]") + 1;
+                string fileName = name.Substring(index, name.Length - index);//获取字段昵称
+                string fileType = name.Substring(1, index - 2);//获取字段类型
+                objDataList.Add(new EditorObjectData { fileName = fileName, fileType = fileType, insID = obj.GetInstanceID() });
+
+                //计算该节点的查找路径
+                string objPath = name;
+                bool isFindOver = false;
+                Transform parent = obj.transform;
+                for (int k = 0; k < 20; k++)
+                {
+                    for (int j = 0; j <= k; j++)
+                    {
+                        if (k == j)
+                        {
+                            parent = parent.parent;
+                            //如果如节点是当前的窗口,查找结束
+                            if (string.Equals(parent.name, WinName))
+                            {
+                                isFindOver = true;
+                                break;
+                            }
+                            else
+                            {
+                                //在前面加上上一级的名字
+                                objPath = objPath.Insert(0, parent.name + "/");
+                            }
+                        }
+                    }
+                    if (isFindOver)
                     {
                         break;
                     }

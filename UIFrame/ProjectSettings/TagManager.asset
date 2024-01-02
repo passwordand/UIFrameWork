@@ -3,7 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Button
+  - Toggle
+  - InputField
+  - Image
+  - Canvas
+  - RawImage
+  - Text
+  - Slider
+  - Dropdown
+  - Panel
+  - ScrollRect
   layers:
   - Default
   - TransparentFX
