@@ -36,6 +36,32 @@ public class UIModule
 
 
     #region 窗口管理
+    public void PreLoadWindow<T>() where T:WindowBase,new()
+    {
+        var type = typeof(T);
+        string widName = type.Name;
+        T windowBase = new T();
+        //实例化界面,初始化界面信息
+        GameObject newwindow= TempLoadWindow(widName);
+        if (newwindow != null)
+        {
+            windowBase.gameObject = newwindow;
+            windowBase.Name = newwindow.name;
+            windowBase.transform = newwindow.transform;
+            windowBase.Canvas = newwindow.GetComponent<Canvas>();
+            windowBase.Canvas.worldCamera = mUICamera;
+            windowBase.OnAwake();
+            windowBase.SetVisible(false);
+            RectTransform rectTrans = newwindow.GetComponent<RectTransform>();
+            rectTrans.anchorMax = Vector2.one;
+            rectTrans.offsetMax = Vector2.zero;
+            rectTrans.offsetMin = Vector2.zero;
+            mAllWindowDic.Add(widName, windowBase);
+            mAllWindowList.Add(windowBase);
+        }
+        Debug.Log("预加载窗口 窗口名字:"+widName);
+    }
+
     /// <summary>
     /// 弹出一个弹窗
     /// </summary>

@@ -24,11 +24,12 @@ public class WindowBase : WindowBehaviour
     public override void OnAwake()
     {
         base.OnAwake();
+        InitializeBaseComponent();
     }
     public override void OnShow()
     {
         base.OnShow();
-        //ShowAnimation();
+        ShowAnimation();
     }
     public override void OnUpdate()
     {
@@ -84,7 +85,7 @@ public class WindowBase : WindowBehaviour
     public void HideWindow()
     {
         UIModule.Instance.HideWindow(Name);
-        //HideAnimation();
+        HideAnimation();
     }
 
     public override void SetVisible(bool isVisible)
