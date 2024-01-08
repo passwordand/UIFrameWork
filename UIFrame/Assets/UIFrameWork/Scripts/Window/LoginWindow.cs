@@ -49,6 +49,6 @@ using UIFrameWork;
 		 public void OnBeginButtonClick()
 		 {
 		UIModule.Instance.PopUpWindow<HallWindow>();
-			}
+		}
 		 #endregion
 	}

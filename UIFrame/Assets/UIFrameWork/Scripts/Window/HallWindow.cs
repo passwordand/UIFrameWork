@@ -25,9 +25,6 @@ using UIFrameWork;
 		 public override void OnShow()
 		 {
 			 base.OnShow();
-		//UIModule.Instance.PushWindowToStack<ChatWindow>();
-		//UIModule.Instance.PushWindowToStack<SettingWindow>();
-		//UIModule.Instance.StartPopFirstStackWindow();
 		 }
 		 //物体隐藏时执行
 		 public override void OnHide()
