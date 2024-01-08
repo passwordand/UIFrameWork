@@ -27,6 +27,7 @@ public class WindowBase : WindowBehaviour
     public override void OnAwake()
     {
         base.OnAwake();
+        InitializeBaseComponent();
     }
     public override void OnShow()
     {
@@ -92,8 +93,6 @@ public class WindowBase : WindowBehaviour
 
     public override void SetVisible(bool isVisible)
     {
-        //TODO:后面会修改
-        //gameObject.SetActive(isVisible);
         mCanvasGroup.alpha = isVisible ? 1 : 0;
         mCanvasGroup.blocksRaycasts = isVisible;
         Visible = isVisible;
