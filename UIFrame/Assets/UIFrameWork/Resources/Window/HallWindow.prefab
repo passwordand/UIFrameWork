@@ -419,6 +419,7 @@ GameObject:
   - component: {fileID: 5676131828146754360}
   - component: {fileID: 5676131828146754363}
   - component: {fileID: 4476409191979365874}
+  - component: {fileID: 6694384471864521252}
   m_Layer: 5
   m_Name: HallWindow
   m_TagString: Untagged
@@ -523,6 +524,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CloseButton: {fileID: 2275784785593368587}
   ChatFrameButton: {fileID: 1711932507802460466}
+--- !u!225 &6694384471864521252
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5676131828146754365}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &8407945907324869723
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,9 +16,9 @@ public abstract class WindowBehaviour
     public Action<WindowBase> PopStackListener { get; set; }
 
     public virtual void OnAwake() { }//只会在物体创建的时候执行一次
-    public virtual void OnShow() { }
+    public virtual void OnShow() { }//在物体显示时执行一次,与Mono的OnEnable一致
     public virtual void OnUpdate() { }
-    public virtual void OnHide() { }
+    public virtual void OnHide() { }//在物体隐藏的时候执行一次,类似OnDisable
     public virtual void OnDestroy() { }
     public virtual void SetVisible(bool isVisible) { }
 }

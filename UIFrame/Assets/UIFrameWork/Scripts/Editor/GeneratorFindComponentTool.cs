@@ -43,18 +43,6 @@ public class GeneratorFindComponentTool : Editor
 
         string cspath=GeneratorConfig.FindComponentGeneratorPath+"/"+obj.name+ "UIComponent.cs";
         UIWindowEditor.ShowWindow(csContent, cspath);
-        //if (File.Exists(cspath))
-        //{
-        //    File.Delete(cspath);
-        //}
-        //StreamWriter writer=File.CreateText(cspath);
-        //writer.Write(csContent);
-        //writer.Close();
-        //AssetDatabase.Refresh();
-        //foreach (var item in objFindPathDic)
-        //{
-        //    Debug.Log(item.Value);
-        //}
     }
 
     /// <summary>
@@ -114,46 +102,14 @@ public class GeneratorFindComponentTool : Editor
         for (int i = 0; i < trans.childCount; i++)
         {
             GameObject obj = trans.GetChild(i).gameObject;
-            string name = obj.name;
-            if (name.Contains("[") && name.Contains("]"))
+            string tagName = obj.tag;
+            if (GeneratorConfig.TAGArr.Contains(tagName))
             {
-                int index = name.IndexOf("]") + 1;
-                string fileName = name.Substring(index, name.Length - index);//获取字段昵称
-                string fileType = name.Substring(1, index - 2);//获取字段类型
+                string fileName = obj.name;//获取字段名
+                string fileType = tagName;//获取字段类型
                 objDataList.Add(new EditorObjectData { fileName = fileName, fileType = fileType, insID = obj.GetInstanceID() });
-
-                //计算该节点的查找路径
-                string objPath = name;
-                bool isFindOver = false;
-                Transform parent = obj.transform;
-                for (int k = 0; k < 20; k++)
-                {
-                    for (int j = 0; j <= k; j++)
-                    {
-                        if (k == j)
-                        {
-                            parent = parent.parent;
-                            //如果如节点是当前的窗口,查找结束
-                            if (string.Equals(parent.name, WinName))
-                            {
-                                isFindOver = true;
-                                break;
-                            }
-                            else
-                            {
-                                //在前面加上上一级的名字
-                                objPath = objPath.Insert(0, parent.name + "/");
-                            }
-                        }
-                    }
-                    if (isFindOver)
-                    {
-                        break;
-                    }
-                }
-                objFindPathDic.Add(obj.GetInstanceID(), objPath);
             }
-            PresWindowNodeData(trans.GetChild(i), WinName);
+            ParseWindowDataByTag(trans.GetChild(i), WinName);
         }
     }
 

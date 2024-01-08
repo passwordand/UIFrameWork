@@ -13,9 +13,12 @@ public class WindowBase : WindowBehaviour
 
     private CanvasGroup mUIMask;
     protected Transform mUIContent;
+    private CanvasGroup mCanvasGroup;
+
     protected bool mDisableAnim = false;//禁用动画
     private void InitializeBaseComponent()
     {
+        mCanvasGroup = transform.Find("CanvasGroup").GetComponent<CanvasGroup>();
         mUIMask = transform.Find("UIMask").GetComponent<CanvasGroup>();
         mUIContent = transform.Find("UIContent").transform;
     }
@@ -91,7 +94,9 @@ public class WindowBase : WindowBehaviour
     public override void SetVisible(bool isVisible)
     {
         //TODO:后面会修改
-        gameObject.SetActive(isVisible);
+        //gameObject.SetActive(isVisible);
+        mCanvasGroup.alpha = isVisible ? 1 : 0;
+        mCanvasGroup.blocksRaycasts = isVisible;
         Visible = isVisible;
     }
 
@@ -119,7 +124,7 @@ public class WindowBase : WindowBehaviour
             btn.onClick.AddListener(action);
         }
     }
-
+    //bool值表示当前的这个是否被选中
     public void AddToggleClickListener(Toggle toggle,UnityAction<bool,Toggle> action)
     {
         if(toggle!=null)

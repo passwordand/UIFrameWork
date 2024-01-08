@@ -11,7 +11,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         LoginWindow loginWindow = UIModule.Instance.PopUpWindow<LoginWindow>();
-        UIModule.Instance.PreLoadWindow<HallWindow>();
+        //UIModule.Instance.PreLoadWindow<HallWindow>();
     }
     private void Update()
     {

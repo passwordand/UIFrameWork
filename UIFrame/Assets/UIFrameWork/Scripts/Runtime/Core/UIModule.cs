@@ -49,7 +49,7 @@ public class UIModule
             windowBase.Name = newwindow.name;
             windowBase.transform = newwindow.transform;
             windowBase.Canvas = newwindow.GetComponent<Canvas>();
-            windowBase.Canvas.worldCamera = mUICamera;
+            windowBase.Canvas.worldCamera = mUICamera; 
             windowBase.OnAwake();
             windowBase.SetVisible(false);
             RectTransform rectTrans = newwindow.GetComponent<RectTransform>();
